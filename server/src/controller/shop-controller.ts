@@ -2,7 +2,8 @@ import Shop from "../model/shop-schema";
 import Customer from "../model/customer-schema";
 import Order from "../model/order-schema";
 import CommunicationLog from "../model/campaign-shema";
-
+import { Connection } from "../database/db";
+Connection();
 export const addShop = async (request: any, response: any) => {
   try {
     const { email, name, description } = request.body;
