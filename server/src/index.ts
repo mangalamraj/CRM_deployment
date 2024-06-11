@@ -15,6 +15,9 @@ app.use(
   }),
 );
 
+app.get("/", (req, res) => {
+  res.json("Hello");
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", Router);
