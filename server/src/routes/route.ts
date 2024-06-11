@@ -32,7 +32,7 @@ router.post("/getAllCustomerData", getCustData);
 router.get("/getAllCampaignData", getCampaignData);
 
 // Customer creation and queuing
-router.post("/customer", async (req, res) => {
+router.post("/customer", async (req: any, res: any) => {
   const { custName, custEmail, spends, visits, lastVisits, shopName } =
     req.body;
 
@@ -55,7 +55,7 @@ router.post("/customer", async (req, res) => {
 });
 
 // Campaign sending
-router.post("/sendCampaign", async (req, res) => {
+router.post("/sendCampaign", async (req: any, res: any) => {
   const { customers } = req.body;
 
   if (!customers || !Array.isArray(customers)) {
@@ -70,7 +70,7 @@ router.post("/sendCampaign", async (req, res) => {
 });
 
 // Order creation and queuing
-router.post("/order", async (req, res) => {
+router.post("/order", async (req: any, res: any) => {
   const { orderName, orderEmail, amount, orderDate, shopName } = req.body;
 
   const order = new Order({
@@ -91,7 +91,7 @@ router.post("/order", async (req, res) => {
 });
 
 // Dummy Vendor API
-router.post("/dummyVendorAPI/batch", (req, res) => {
+router.post("/dummyVendorAPI/batch", (req: any, res: any) => {
   const messages = req.body.messages;
   // Handle the batch processing logic here
   console.log("Received batch messages:", messages);
@@ -99,7 +99,7 @@ router.post("/dummyVendorAPI/batch", (req, res) => {
 });
 
 // Delivery Receipt API
-router.post("/deliveryReceipt", async (req, res) => {
+router.post("/deliveryReceipt", async (req: any, res: any) => {
   await connectToDB;
   const { logId, status } = req.body;
 
