@@ -16,33 +16,13 @@ import axios from "axios";
 import mongoose from "mongoose";
 import { Connection } from "../database/db";
 const connectToDB = Connection();
-
 dotenv.config();
 
 const router = express.Router();
 
-let channel: any, connection;
+let channel: amqp.Channel, connection: amqp.Connection;
 
 const QUEUE = "campaignQueue";
-
-// RabbitMQ connection and channel setup
-async function connectRabbitMQ() {
-  try {
-    connection = await amqp.connect(
-      process.env.RABBITMQ_URL ||
-        "amqps://lbgyymhn:SV9-imIoV_108rlH_nLajN9pwQ-DSFml@rattlesnake.rmq.cloudamqp.com/lbgyymhn",
-    );
-    channel = await connection.createChannel();
-    await channel.assertQueue("orders");
-    await channel.assertQueue("customers");
-    await channel.assertQueue(QUEUE);
-    console.log("Connected to RabbitMQ");
-  } catch (error) {
-    console.error("Failed to connect to RabbitMQ", error);
-  }
-}
-
-connectRabbitMQ();
 
 // Define your routes here
 router.post("/addshop", addShop);
@@ -192,12 +172,26 @@ async function setupConsumer() {
   });
 }
 
-setupConsumer()
-  .then(() => {
-    console.log("RabbitMQ consumer connected");
-  })
-  .catch((err) => {
-    console.error("Failed to connect to RabbitMQ", err);
-  });
+// RabbitMQ connection and channel setup
+async function connectRabbitMQ() {
+  try {
+    connection = await amqp.connect(
+      process.env.RABBITMQ_URL ||
+        "amqps://lbgyymhn:SV9-imIoV_108rlH_nLajN9pwQ-DSFml@rattlesnake.rmq.cloudamqp.com/lbgyymhn",
+    );
+    channel = await connection.createChannel();
+    await channel.assertQueue("orders");
+    await channel.assertQueue("customers");
+    await channel.assertQueue(QUEUE);
+    console.log("Connected to RabbitMQ");
+
+    // Once connected, setup the consumer
+    await setupConsumer();
+  } catch (error) {
+    console.error("Failed to connect to RabbitMQ", error);
+  }
+}
+
+connectRabbitMQ();
 
 export default router;
