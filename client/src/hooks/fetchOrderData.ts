@@ -24,14 +24,17 @@ const useFetchOrderData = (): FetchDataResponse => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/getAllOrderData", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const response = await fetch(
+          "https://crm-deployment-server.vercel.app/getAllOrderData",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
 
-          body: JSON.stringify({ shopName }),
-        });
+            body: JSON.stringify({ shopName }),
+          },
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }

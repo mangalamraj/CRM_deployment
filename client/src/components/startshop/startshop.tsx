@@ -32,15 +32,18 @@ const StartShop = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8000/addshop", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: user,
-          name: name,
-          description: details,
-        }),
-      });
+      const response = await fetch(
+        "https://crm-deployment-server.vercel.app/addshop",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: user,
+            name: name,
+            description: details,
+          }),
+        },
+      );
       if (response.ok) {
         toast.success("✨Campaign Launched!", {
           position: "bottom-right",

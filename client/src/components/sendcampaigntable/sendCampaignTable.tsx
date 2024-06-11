@@ -74,13 +74,16 @@ const SendCampaignTable = () => {
       .getSelectedRowModel()
       .rows.map((row) => row.original);
     try {
-      const response = await fetch("http://localhost:8000/sendCampaign", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://crm-deployment-server.vercel.app/sendCampaign",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ customers: selectedRows }),
         },
-        body: JSON.stringify({ customers: selectedRows }),
-      });
+      );
       if (response.ok) {
         alert("Campaign sent successfully");
         window.location.reload();
