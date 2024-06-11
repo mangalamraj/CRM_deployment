@@ -3,9 +3,11 @@ import Customer from "../model/customer-schema";
 import Order from "../model/order-schema";
 import CommunicationLog from "../model/campaign-shema";
 import { Connection } from "../database/db";
-Connection();
+const connectToDB = Connection();
 export const addShop = async (request: any, response: any) => {
   try {
+    await connectToDB;
+
     const { email, name, description } = request.body;
     const newCampaign = new Shop({ email, name, description });
     const savedCampaign = await newCampaign.save();
@@ -21,6 +23,8 @@ export const addShop = async (request: any, response: any) => {
 
 export const getCampaignData = async (request: any, response: any) => {
   try {
+    await connectToDB;
+
     const campaignData = await CommunicationLog.find();
 
     if (campaignData) {
@@ -35,6 +39,8 @@ export const getCampaignData = async (request: any, response: any) => {
 
 export const getShopData = async (request: any, response: any) => {
   try {
+    await connectToDB;
+
     const { email } = request.body;
     const shopDetails = await Shop.find({ email });
     if (shopDetails) {
@@ -49,6 +55,8 @@ export const getShopData = async (request: any, response: any) => {
 
 export const getCustData = async (req: any, res: any) => {
   try {
+    await connectToDB;
+
     const { shopName } = req.body;
 
     const customers = await Customer.find({ shopName });
@@ -65,6 +73,8 @@ export const getCustData = async (req: any, res: any) => {
 
 export const getAllOrderData = async (req: any, res: any) => {
   try {
+    await connectToDB;
+
     const { shopName } = req.body;
     const order = await Order.find({ shopName });
     if (order) {
