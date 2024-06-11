@@ -15,7 +15,7 @@ app.use(
   }),
 );
 
-app.get("/", (req, res) => {
+app.get("/", (req: any, res: any) => {
   res.json("Hello");
 });
 app.use(bodyParser.json());
