@@ -149,9 +149,12 @@ async function setupConsumer() {
         await log.save();
       }
 
-      await axios.post("http://localhost:8000/dummyVendorAPI/batch", {
-        messages: batch.map((msg) => JSON.parse(msg.content.toString())),
-      });
+      await axios.post(
+        "https://crm-deployment-server.vercel.app/dummyVendorAPI/batch",
+        {
+          messages: batch.map((msg) => JSON.parse(msg.content.toString())),
+        },
+      );
 
       const statuses: ("SENT" | "FAILED")[] = batch.map(() =>
         Math.random() < 0.9 ? "SENT" : "FAILED",
@@ -159,10 +162,13 @@ async function setupConsumer() {
 
       for (let i = 0; i < batch.length; i++) {
         const logId = (await CommunicationLog.findOne().sort({ _id: -1 }))!._id;
-        await axios.post("http://localhost:8000/deliveryReceipt", {
-          logId,
-          status: statuses[i],
-        });
+        await axios.post(
+          "https://crm-deployment-server.vercel.app/deliveryReceipt",
+          {
+            logId,
+            status: statuses[i],
+          },
+        );
       }
     } catch (error) {
       console.error("Error processing batch", error);
