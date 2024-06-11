@@ -14,6 +14,8 @@ import CommunicationLog from "../model/campaign-shema";
 import dotenv from "dotenv";
 import axios from "axios";
 import mongoose from "mongoose";
+import { Connection } from "../database/db";
+const connectToDB = Connection();
 
 dotenv.config();
 
@@ -118,6 +120,7 @@ router.post("/dummyVendorAPI/batch", (req, res) => {
 
 // Delivery Receipt API
 router.post("/deliveryReceipt", async (req, res) => {
+  await connectToDB;
   const { logId, status } = req.body;
 
   try {
@@ -136,6 +139,7 @@ async function setupConsumer() {
 
   async function processBatch() {
     try {
+      await connectToDB;
       const batch = messageBuffer.splice(0, BATCH_SIZE);
       if (batch.length === 0) return;
 
