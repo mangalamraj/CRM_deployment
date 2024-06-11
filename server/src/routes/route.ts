@@ -124,15 +124,11 @@ async function setupConsumer() {
       if (batch.length === 0) return;
 
       for (const msg of batch) {
-        const statuses: ("SENT" | "FAILED")[] = batch.map(() =>
-          Math.random() < 0.9 ? "SENT" : "FAILED",
-        );
-
         const customer = JSON.parse(msg.content.toString());
         const log = new CommunicationLog({
           custName: customer.custName,
           custEmail: customer.custEmail,
-          status: statuses,
+          status: "PENDING",
         });
         await log.save();
       }
@@ -144,7 +140,7 @@ async function setupConsumer() {
         },
       );
 
-      const statuses: ("SENT" | "FAILED" | "PENDING")[] = batch.map(() =>
+      const statuses: ("SENT" | "FAILED")[] = batch.map(() =>
         Math.random() < 0.9 ? "SENT" : "FAILED",
       );
 
