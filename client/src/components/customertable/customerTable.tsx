@@ -16,37 +16,44 @@ import { useParams } from "next/navigation";
 interface Item {
   id: string;
   label: string;
+  state: number;
   filterFn: (customer: any) => boolean;
 }
 
-const items: Item[] = [
-  {
-    id: "10000",
-    label: "spends > INR 10000",
-    filterFn: (customer) => customer.spends > 10000,
-  },
-  {
-    id: "3visits",
-    label: "visits <= 3",
-    filterFn: (customer) => customer.visits <= 3,
-  },
-  {
-    id: "3months",
-    label: "last visit > 3 months",
-    filterFn: (customer) => {
-      const threeMonthsAgo = new Date();
-      threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-      return new Date(customer.lastVisits) < threeMonthsAgo;
-    },
-  },
-];
-
 const CustomerTable = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [cost, setCost] = useState(0);
+  const [visits, setVisits] = useState(0);
+  const [months, setMonths] = useState(0);
   const [filteredData, setFilteredData] = useState<any[]>([]);
   const { data, error, loading } = useFetchCustomerData();
   const params = useParams<{ shopname: string }>();
   const decodedItem = decodeURIComponent(params.shopname);
+
+  const items: Item[] = [
+    {
+      id: "10000",
+      label: `spends > INR `,
+      state: cost,
+      filterFn: (customer) => customer.spends > cost,
+    },
+    {
+      id: "3visits",
+      label: `visits <= `,
+      state: visits,
+      filterFn: (customer) => customer.visits <= visits,
+    },
+    {
+      id: "3months",
+      label: `last visit >  months`,
+      state: months,
+      filterFn: (customer) => {
+        const threeMonthsAgo = new Date();
+        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - months);
+        return new Date(customer.lastVisits) < threeMonthsAgo;
+      },
+    },
+  ];
 
   useEffect(() => {
     if (data) {
@@ -106,7 +113,32 @@ const CustomerTable = () => {
               }
               className="bg-gray-800"
             />
-            <label className="font-normal">{item.label}</label>
+            <label className="font-normal">
+              <div className="flex gap-2 items-center">
+                <div>{item.label}</div>
+                <input
+                  className="w-[80px] h-[40px] text-black"
+                  type="number"
+                  value={item.state}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    switch (item.id) {
+                      case "10000":
+                        setCost(value);
+                        break;
+                      case "3visits":
+                        setVisits(value);
+                        break;
+                      case "3months":
+                        setMonths(value);
+                        break;
+                      default:
+                        break;
+                    }
+                  }}
+                />
+              </div>
+            </label>
           </div>
         ))}
         <Button

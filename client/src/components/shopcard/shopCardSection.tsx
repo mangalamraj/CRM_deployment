@@ -12,7 +12,7 @@ const ShopCardSection = () => {
   }
 
   if (error) {
-    return <div>Error loading shop data.</div>;
+    return <div>Nothing to show now...</div>;
   }
 
   if (!data || !Array.isArray(data.shopDetails)) {

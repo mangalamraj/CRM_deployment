@@ -17,6 +17,7 @@ import { useAuth } from "../providers/authprovider";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Cross } from "lucide-react";
+import Link from "next/link";
 
 const StartShop = () => {
   const { user } = useAuth();
@@ -56,6 +57,7 @@ const StartShop = () => {
           theme: "light",
           transition: Bounce,
         });
+        window.location.reload();
       }
     } catch (error: unknown) {
       console.log("Error", error);
@@ -68,50 +70,60 @@ const StartShop = () => {
         <DialogTrigger className="flex items-center gap-2 m-auto">
           <Cross className="text-green-200 md:w-6 w-4" /> Start A Shop
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] ">
-          <form onSubmit={handleSubmit}>
-            <DialogHeader>
-              <DialogTitle>Enter Details</DialogTitle>
-              <DialogDescription>
-                Add name and details for your campaign, We will add it to your
-                profile.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name of the Shop
-                </Label>
-                <Input
-                  id="name"
-                  value={name}
-                  onChange={handleNameChange}
-                  placeholder="Amitabh Bacchan"
-                  className="col-span-3 text-black"
-                />
+        {user ? (
+          <DialogContent className="sm:max-w-[425px] ">
+            <form onSubmit={handleSubmit}>
+              <DialogHeader>
+                <DialogTitle>Enter Details</DialogTitle>
+                <DialogDescription>
+                  Add name and details for your Shop, We will add it to your
+                  profile.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="items-center gap-4">
+                  <Label htmlFor="name" className="text-right">
+                    Name of the Shop
+                  </Label>
+                  <Input
+                    id="name"
+                    value={name}
+                    onChange={handleNameChange}
+                    placeholder="Amitabh Bacchan"
+                    className="col-span-3 text-black"
+                  />
+                </div>
+                <div className="items-center gap-4">
+                  <Label htmlFor="details" className="text-right">
+                    Details
+                  </Label>
+                  <Textarea
+                    className="text-black"
+                    value={details}
+                    onChange={handleDetailsChange}
+                    placeholder="Type your details here."
+                  />
+                </div>
               </div>
-              <div className="items-center gap-4">
-                <Label htmlFor="details" className="text-right">
-                  Details
-                </Label>
-                <Textarea
-                  className="text-black"
-                  value={details}
-                  onChange={handleDetailsChange}
-                  placeholder="Type your details here."
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button
-                className="bg-white text-black flex gap-2 m-auto font-normal hover:bg-white hover:bg-opacity-70"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
+              <DialogFooter>
+                <Button
+                  className="bg-white text-black flex gap-2 m-auto font-normal hover:bg-white hover:bg-opacity-70"
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        ) : (
+          <DialogContent className="flex gap-[4px]">
+            Please
+            <Link href="/login" className="inline text-blue-500">
+              Login
+            </Link>
+            first
+          </DialogContent>
+        )}
       </Dialog>
     </div>
   );
