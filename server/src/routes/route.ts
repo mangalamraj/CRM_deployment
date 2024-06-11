@@ -140,7 +140,7 @@ async function setupConsumer() {
         },
       );
 
-      const statuses: ("SENT" | "FAILED")[] = batch.map(() =>
+      const statuses: ("SENT" | "FAILED" | "PENDING")[] = batch.map(() =>
         Math.random() < 0.9 ? "SENT" : "FAILED",
       );
 
