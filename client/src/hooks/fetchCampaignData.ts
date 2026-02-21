@@ -21,7 +21,7 @@ const useFetchCampaignData = (): FetchDataResponse => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://crm-deployment-server.vercel.app/getAllCampaignData",
+          "http://localhost:8000/getAllCampaignData",
           {
             method: "GET",
           },

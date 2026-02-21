@@ -43,16 +43,13 @@ const CustOrdComponent = () => {
       shopName,
     };
     try {
-      const response = await fetch(
-        "https://crm-deployment-server.vercel.app/customer",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(customerData),
+      const response = await fetch("http://localhost:8000/customer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(customerData),
+      });
       if (response.ok) {
         alert("Customer submitted");
         router.push(`${shopName}/${localStorage.getItem("email")}/campaign`);
@@ -66,16 +63,13 @@ const CustOrdComponent = () => {
     e.preventDefault();
     const orderData = { orderName, orderEmail, amount, orderDate, shopName };
     try {
-      const response = await fetch(
-        "https://crm-deployment-server.vercel.app/order",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
+      const response = await fetch("http://localhost:8000/order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(orderData),
+      });
       if (response.ok) {
         alert("Order submitted");
         window.location.reload();

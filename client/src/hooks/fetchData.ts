@@ -34,16 +34,13 @@ const useFetchShopData = (): FetchDataResponse => {
           throw new Error("Email not found in local storage");
         }
 
-        const response = await fetch(
-          "https://crm-deployment-server.vercel.app/getshopdata",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email }),
+        const response = await fetch("http://localhost:8000/getshopdata", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        );
+          body: JSON.stringify({ email }),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");

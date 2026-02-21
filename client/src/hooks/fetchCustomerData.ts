@@ -29,7 +29,7 @@ const useFetchCustomerData = (): FetchDataResponse => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://crm-deployment-server.vercel.app/getAllCustomerData",
+          "http://localhost:8000/getAllCustomerData",
           {
             method: "POST",
             headers: {
